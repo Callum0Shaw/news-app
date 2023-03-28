@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Select from 'react-select';
 import SourceButton from './SourceButton';
 
-function Sources() {
+function Sources({ setSelectedSource }) {
   const sources = [
     { value: 'bbc', label: 'BBC' },
     { value: 'the-times', label: 'The Times' },
@@ -11,7 +11,6 @@ function Sources() {
     { value: 'the-guardian', label: 'The Guardian' },
     { value: 'reuters', label: 'Reuters' },
   ];
-  const [selectedSource, setSelectedSource] = useState('All');
 
   function handleChange(selectedOption) {
     setSelectedSource(selectedOption.label);
@@ -20,13 +19,13 @@ function Sources() {
   return (
     <div className="sources__container">
       {sources.map((source) => (
-        <SourceButton source={source} setSource={handleChange} key={source.value}/>
+        <SourceButton source={source} setSource={handleChange} key={source.value} />
       ))}
-        <Select
-          options={sources}
-          onChange={handleChange}
-          classNames={{ control: () => 'source__select' }}
-        />
+      <Select
+        options={sources}
+        onChange={handleChange}
+        classNames={{ control: () => 'source__select' }}
+      />
     </div>
   );
 }

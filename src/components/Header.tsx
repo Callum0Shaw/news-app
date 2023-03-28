@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import MobileSearch from './MobileSearch';
 
@@ -9,7 +10,9 @@ function Header() {
     <header>
       <div className="header__background">
         <div className="header__container">
-          <h1>The Newspaper</h1>
+          <Link to="/">
+            <h1>The Newspaper</h1>
+          </Link>
           <div className="header__container__right">
             <p className="header__text">Bringing the latest news in one space.</p>
             {!toggleSearch && (

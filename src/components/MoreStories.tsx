@@ -1,5 +1,5 @@
 import React from 'react';
-import SecondaryArticle from './SecondaryArticle';
+import ArticleSummary from './ArticleSummary';
 
 function MoreStories({ articles }) {
   const moreArticles = articles.slice(4, 16);
@@ -7,10 +7,10 @@ function MoreStories({ articles }) {
   return (
     <div className="morestories__container">
       <h2>More stories:</h2>
-      <ul className="storylist article__container">
-        {moreArticles.map((article, i) => (
-          <li className="storylist__item">
-            <SecondaryArticle article={article} key={i} />
+      <ul className="storylist section__container">
+        {moreArticles.map((article) => (
+          <li className="storylist__item" key={article?.id}>
+            <ArticleSummary article={article} status={'secondary'} />
           </li>
         ))}
       </ul>

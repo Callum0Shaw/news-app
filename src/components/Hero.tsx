@@ -1,6 +1,5 @@
 import React from 'react';
-import PrimaryArticle from './PrimaryArticle';
-import SecondaryArticle from './SecondaryArticle';
+import ArticleSummary from './ArticleSummary';
 
 function Hero({ articles }) {
   const secondaryArticles = articles.slice(1, 4);
@@ -9,13 +8,13 @@ function Hero({ articles }) {
     <div className="hero__container">
       <hr />
       <h2>Today's latest:</h2>
-      <div className="article__container hero__article__container">
-        <PrimaryArticle article={articles[0]} key={55} />
+      <div className="section__container hero__card__container">
+        <ArticleSummary article={articles[0]} status={'primary'} key={articles[0]?.id} />
         <div className="vertical__rule"></div>
         <hr />
         <div className="secondaries__container">
-          {secondaryArticles.map((article, i) => (
-            <SecondaryArticle article={article} key={i} />
+          {secondaryArticles.map((article) => (
+            <ArticleSummary article={article} status={'secondary'} key={article?.id} />
           ))}
         </div>
       </div>

@@ -1,32 +1,38 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React, { createContext } from 'react';
+
 import Grid from './components/Grid';
-import Header from './components/Header';
-import Sources from './components/Sources';
-import Hero from './components/Hero';
-import MoreStories from './components/MoreStories';
-import { useEffect, useState } from 'react';
+import Layout from './components/Layout';
+import Home from './routes/Home';
+import Article from './routes/Article';
+import ErrorPage from './routes/ErrorPage';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'article/:id',
+        element: <Article />,
+      },
+    ],
+  },
+]);
+
+const FilterContext = createContext('all');
 
 function App() {
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('./data.json');
-      const jsondata = await res.json();
-      setArticles(jsondata.articles);
-    };
-    fetchData();
-  }, []);
-
   return (
-    <div className="App">
+    <>
       <Grid />
-      <Header />
-      <main>
-        <Sources />
-        <Hero articles={articles} />
-        <MoreStories articles={articles} />
-      </main>
-    </div>
+      <RouterProvider router={router} />
+    </>
   );
 }
 
