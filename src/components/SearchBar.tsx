@@ -2,13 +2,13 @@ import React from 'react';
 
 function SearchBar({ filter }) {
   return (
-    <form className="search__container">
+    <form className="search__container" on>
       <input
         type="text"
         name="search"
         className="search__input"
         id=""
-        placeholder={`search ${filter}...`}
+        placeholder={`search ${filter.label || 'all'}...`}
       />
       <button type="submit" className="search__button">
         <svg

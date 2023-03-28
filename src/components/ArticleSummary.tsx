@@ -18,10 +18,9 @@ function PrimaryArticle({ article, status }) {
         <p className="source__small">{article?.source.name}</p>
       </div>
       <div className="text__container__vertical">
-        <h3>{title}</h3>
+        <h3>{article?.title}</h3>
         <p>
-          in hendrerit gravida rutrum quisque non tellus orci ac auctor augue mauris augue neque
-          gravida in fermentum et sollicitudin ac orci phasellus egestas tellus rutrum
+          {article?.description}
         </p>
         <a className="readmore__link" href={`/article/${article?.id}`}>
           read more...

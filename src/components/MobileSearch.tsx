@@ -1,10 +1,10 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 
-function MobileSearch() {
+function MobileSearch({ filter }) {
   return (
     <div className="searchbar__container__mobile">
-      <SearchBar filter='all' />
+      <SearchBar filter={filter} />
     </div>
   );
 }

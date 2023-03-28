@@ -316,6 +316,10 @@ a {
   align-items: center;
   border-radius: 2px;
 }
+
+.source__button__active {
+  background-color: crimson;
+}
 .source__select__container {
   border-radius: 2px;
   /* border: 1px solid var(--brand); */

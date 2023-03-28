@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import React, { createContext } from 'react';
+import React from 'react';
 
 import Grid from './components/Grid';
 import Layout from './components/Layout';
@@ -24,8 +24,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-const FilterContext = createContext('all');
 
 function App() {
   return (

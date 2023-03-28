@@ -1,6 +1,9 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 function Article() {
+  const { id } = useParams();
+
   return (
     <main className="main__article__container">
       <article className="section__container article__container">

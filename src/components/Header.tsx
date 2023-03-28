@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import MobileSearch from './MobileSearch';
 
-function Header() {
+function Header({selectedSource}) {
   const [toggleSearch, setToggleSearch] = useState(false);
 
   return (
@@ -38,12 +38,12 @@ function Header() {
               </button>
             )}
             <div className="searchbar__container__desktop">
-              <SearchBar filter="all" />
+              <SearchBar filter={selectedSource} />
             </div>
           </div>
         </div>
       </div>
-      {toggleSearch && <MobileSearch />}
+      {toggleSearch && <MobileSearch filter={selectedSource} />}
     </header>
   );
 }

@@ -2,18 +2,16 @@ import Sources from '../components/Sources';
 import Hero from '../components/Hero';
 import MoreStories from '../components/MoreStories';
 import { useEffect, useState } from 'react';
-import { generateUniqueId } from '../utils/api';
+import { useOutletContext } from 'react-router-dom';
+import { getAllArticles } from '../utils/api';
 
 function Home() {
   const [articles, setArticles] = useState([]);
-  const [selectedSource, setSelectedSource] = useState('all');
+  const [selectedSource, setSelectedSource] = useOutletContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('./data.json');
-      const jsondata = await res.json();
-
-      const articleArray = jsondata.articles.map((a) => ({ ...a, id: generateUniqueId() }));
+      const articleArray = await getAllArticles();
       setArticles(articleArray);
     };
     fetchData();
@@ -21,8 +19,8 @@ function Home() {
 
   return (
     <main>
-      <Sources setSelectedSource={setSelectedSource} />
-      <Hero articles={articles} />
+      <Sources setSelectedSource={setSelectedSource}  setArticles={setArticles}/>
+      <Hero articles={articles}  selectedSource={selectedSource}/>
       <MoreStories articles={articles} />
     </main>
   );
