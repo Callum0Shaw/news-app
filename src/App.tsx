@@ -1,6 +1,7 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React from 'react';
-
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from '@reduxjs/toolkit';
+import { store } from './store/store';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import Home from './routes/Home';
@@ -28,8 +29,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <Grid />
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <Grid />
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import Sources from '../components/Sources';
 import Hero from '../components/Hero';
 import MoreStories from '../components/MoreStories';
+import Error from '../components/Error';
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { getAllArticles } from '../utils/api';

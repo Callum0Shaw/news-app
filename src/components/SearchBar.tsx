@@ -2,7 +2,7 @@ import React from 'react';
 
 function SearchBar({ filter }) {
   return (
-    <form className="search__container" on>
+    <form className="search__container">
       <input
         type="text"
         name="search"
