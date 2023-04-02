@@ -8,34 +8,37 @@ function generateUniqueId() {
 function mapWithUniqueID(array) {
   return array.map((a) => ({ ...a, id: generateUniqueId() }));
 }
+const apiKey = '088b805218af4abe9d646550c066ca54';
 
 async function getAllArticles() {
-  try {
-    const res = await fetch(
-      'https://newsapi.org/v2/top-headlines?country=us&apiKey=088b805218af4abe9d646550c066ca54'
-    );
-    const jsondata = await res.json();
-
-    if (jsondata.status === 'error') {
-      console.log(`${jsondata.code}: ${jsondata.message}`);
-      console.log(jsondata);
-
-      return [];
-    }
-    return mapWithUniqueID(jsondata.articles);
-  } catch (error) {
-    console.log('Unknown error fetching articles');
-    return [];
-  }
+  const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`);
+  return await res.json();
 }
 
 async function getArticlesBySource(source) {
-  if (source === 'all') return getAllArticles();
+  const res = await fetch(`https://newsapi.org/v2/everything?sources=${source}&apiKey=${apiKey}`);
+  return await res.json();
+}
+
+async function getArticlesByTitle(source, titleParams) {
   const res = await fetch(
-    `https://newsapi.org/v2/everything?sources=${source}&apiKey=088b805218af4abe9d646550c066ca54`
+    `https://newsapi.org/v2/everything?q=${encodeURI(
+      titleParams
+    )}&searchIn=title&sources=${source}&apiKey=${apiKey}`
   );
-  const jsondata = await res.json();
-  return mapWithUniqueID(jsondata.articles);
+  return await res.json;
+}
+
+async function getFilteredArticles(source, titleParams) {
+  if (!titleParams) {
+    const res = await fetch(`https://newsapi.org/v2/everything?sources=${source}&apiKey=${apiKey}`);
+    return await res.json();
+  }
+  const res = await fetch(
+    `https://newsapi.org/v2/everything?q=${encodeURI(
+      titleParams
+    )}&searchIn=title&sources=${source}&apiKey=${apiKey}`
+  );
 }
 
 async function getAllSources() {
@@ -46,13 +49,4 @@ async function getAllSources() {
   return jsondata.sources;
 }
 
-async function getArticlesByTitle(params, source) {
-  const res = await fetch(
-    `https://newsapi.org/v2/everything?q=${encodeURI(
-      params
-    )}&searchIn=title&sources=${source}&apiKey=088b805218af4abe9d646550c066ca54`
-  );
-  const jsondata = await res.json;
-  return mapWithUniqueID(jsondata.articles);
-}
-export { getAllArticles, getArticlesBySource, getAllSources, getArticlesByTitle };
+export { getAllArticles, getArticlesBySource, getAllSources, getArticlesByTitle, getFilteredArticles };

@@ -1,10 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getSelectedSource,
+  getTitleParams,
+  fetchArticles,
+  setTitleParams,
+} from '../store/articlesSlice';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import MobileSearch from './MobileSearch';
 
-function Header({selectedSource}) {
+function Header() {
   const [toggleSearch, setToggleSearch] = useState(false);
+
+  const dispatch = useDispatch();
+  const selectedSource = useSelector(getSelectedSource);
+  const titleParams = useSelector(getTitleParams);
+
+  function onSearch(searchTerm) {
+    dispatch(fetchArticles({ selectedSource, titleParams }));
+    dispatch(setTitleParams(searchTerm));
+  }
 
   return (
     <header>
@@ -38,7 +54,7 @@ function Header({selectedSource}) {
               </button>
             )}
             <div className="searchbar__container__desktop">
-              <SearchBar filter={selectedSource} />
+              <SearchBar selectedSource={selectedSource} onSearch={onSearch} />
             </div>
           </div>
         </div>

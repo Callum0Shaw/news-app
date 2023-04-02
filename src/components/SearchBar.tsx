@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function SearchBar({ filter }) {
+function SearchBar({ selectedSource, onSearch }) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  function handleInputChange(e) {
+    setSearchTerm(e.target.value);
+  }
+  function handleSearchSubmit(e) {
+    e.preventDefault();    
+    onSearch(searchTerm);
+  }
+
   return (
-    <form className="search__container">
+    <form className="search__container" onSubmit={handleSearchSubmit}>
       <input
         type="text"
         name="search"
         className="search__input"
-        id=""
-        placeholder={`search ${filter.label || 'all'}...`}
+        value={searchTerm}
+        onChange={handleInputChange}
+        placeholder={`search ${selectedSource.label || 'all'}...`}
       />
       <button type="submit" className="search__button">
         <svg

@@ -1,28 +1,47 @@
 import Sources from '../components/Sources';
 import Hero from '../components/Hero';
 import MoreStories from '../components/MoreStories';
-import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import { getAllArticles } from '../utils/api';
+import {
+  fetchArticles,
+  fetchAll,
+  getArticlesError,
+  getArticlesStatus,
+  selectArticles,
+  getSelectedSource,
+  getTitleParams
+} from '../store/articlesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {
-  const [articles, setArticles] = useState([]);
-  const [selectedSource, setSelectedSource] = useOutletContext();
+  const dispatch = useDispatch();
+  const articlesStatus = useSelector(getArticlesStatus);
+  const error = useSelector(getArticlesError);
+  const articles = useSelector(selectArticles);
+  const selectedSource = useSelector(getSelectedSource)
+  const titleParams = useSelector(getTitleParams)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const articleArray = await getAllArticles();
-      setArticles(articleArray);
-    };
-    fetchData();
-  }, []);
+    if (articlesStatus === 'idle') {      
+      dispatch(fetchArticles({selectedSource, titleParams}))
+    }
+
+  }, [articlesStatus, dispatch, selectedSource, titleParams]);
+
+
 
   return (
     <main>
-      <Sources setSelectedSource={setSelectedSource}  setArticles={setArticles}/>
-      <Hero articles={articles}  selectedSource={selectedSource}/>
-      <MoreStories articles={articles} />
+      <Sources />
+      {articlesStatus === 'succeeded' ? (
+        <>
+          <Hero articles={articles} />
+          <MoreStories articles={articles} />
+        </>
+      ) : (
+        <Spinner />
+      )}
     </main>
   );
 }

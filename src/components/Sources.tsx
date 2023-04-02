@@ -1,10 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTitleParams, setSource, fetchArticles } from '../store/articlesSlice';
 import Select from 'react-select';
-import { getArticlesBySource, getAllSources } from '../utils/api';
 import SourceButton from './SourceButton';
 
-function Sources({ setSelectedSource, setArticles }) {
+function Sources() {
   const [activeSourceIndex, setActiveSourceIndex] = useState(null);
+
+  const dispatch = useDispatch();
+  const titleParams = useSelector(getTitleParams);
+
+  function handleSourceChange(selectedSource) {
+    dispatch(setSource(selectedSource));
+    dispatch(fetchArticles({ selectedSource, titleParams }));
+  }
 
   const sources = [
     { value: 'all', label: 'All' },
@@ -16,33 +25,20 @@ function Sources({ setSelectedSource, setArticles }) {
     { value: 'reuters', label: 'Reuters' },
   ];
 
-  // Set user selected source and fetch articles with stated source.
-  function handleChange(selectedOption) {
-    setSelectedSource(selectedOption);
-    getArticlesBySource(selectedOption.value).then((res) => setArticles(res));
-  }
-
-  // Same as above, but reset activeIndex.
-  function handleSelectChange(selectedOption) {
-    setSelectedSource(selectedOption);
-    getArticlesBySource(selectedOption.value).then((res) => setArticles(res));
-    setActiveSourceIndex(null);
-  }
-
   return (
     <div className="sources__container">
       {sources.map((source, i) => (
         <SourceButton
           key={i}
-          source={source}
-          setSource={handleChange}
+          selectedSource={source}
           active={activeSourceIndex === i ? true : false}
           setActive={() => setActiveSourceIndex(i)}
+          handleSourceChange={handleSourceChange}
         />
       ))}
       <Select
         options={sources}
-        onChange={handleSelectChange}
+        onChange={handleSourceChange}
         classNames={{ control: () => 'source__select' }}
       />
     </div>

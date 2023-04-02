@@ -1,9 +1,9 @@
 import React from 'react';
 
-function SourceButton({ source, setSource, active, setActive }) {
+function SourceButton({ selectedSource, active, setActive, handleSourceChange }) {
   function handleClick() {
-    setSource(source);
     setActive();
+    handleSourceChange(selectedSource)
   }
 
   return (
@@ -11,7 +11,7 @@ function SourceButton({ source, setSource, active, setActive }) {
       className={`source__button ${active ? 'source__button__active' : ''}`}
       onClick={handleClick}
     >
-      <p>{source.label}</p>
+      <p>{selectedSource.label}</p>
     </button>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Provider } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
