@@ -53,7 +53,7 @@ async function getArticlesByTitle(source: string, titleParams: string): Promise<
   return await res.json();
 }
 
-async function getFilteredArticles(source, titleParams) {
+async function getFilteredArticles(source: string, titleParams: string) {
   if (!titleParams) {
     const res = await fetch(`https://newsapi.org/v2/everything?sources=${source}&apiKey=${apiKey}`);
     if (res.status !== 200) throw new Error(res.message);
