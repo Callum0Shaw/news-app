@@ -3,6 +3,11 @@ import articlesReducer from './articlesSlice';
 
 export const store = configureStore({
   reducer: {
-    articles: articlesReducer
+    articles: articlesReducer,
   },
 });
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {articles: ArticlesState}
+export type AppDispatch = typeof store.dispatch;

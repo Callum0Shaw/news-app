@@ -1,46 +1,54 @@
-import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { getAllArticles, getArticlesBySource, getArticlesByTitle } from '../utils/api';
+import { Article } from '../types/articles';
+import { SelectedSource } from '../types/sources';
 
-const initialState = {
+interface ArticlesState {
+  articles: Article[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | undefined;
+  selectedSource: SelectedSource;
+  titleParams: string;
+}
+
+const initialState: ArticlesState = {
   articles: [],
   status: 'idle',
-  error: null,
-  source: { value: 'all', label: 'All' },
+  error: undefined,
+  selectedSource: { id: 'all', name: 'All' },
   titleParams: '',
 };
 
 // THUNK MIDDLEWARES
+interface FetchArticlesArgs {
+  selectedSource: SelectedSource;
+  titleParams: string;
+}
+
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({selectedSource, titleParams}, ...args) => {
-    console.log(args);
-    
-    try {
-      if (selectedSource.value === 'all' && !titleParams) {
-        const { articles } = await getAllArticles();
-        return articles;
-      }
-      if (!titleParams) {
-        const { articles } = await getArticlesBySource(selectedSource.value);
-        return articles;
-      }      
-      const { articles } = await getArticlesByTitle(selectedSource.value, titleParams);
+  async ({ selectedSource, titleParams }: FetchArticlesArgs) => {
+    if (selectedSource.id === 'all' && !titleParams) {
+      const { articles } = await getAllArticles();
       return articles;
-    } catch (error) {
-      return error.message;
     }
+    if (!titleParams) {
+      const { articles } = await getArticlesBySource(selectedSource.id);
+      return articles;
+    }
+    const { articles } = await getArticlesByTitle(selectedSource.id, titleParams);
+    return articles;
   }
 );
-
 
 export const articlesSlice = createSlice({
   name: 'articles',
   initialState,
   reducers: {
-    setSource: (state, action) => {
-      state.source = action.payload;
+    setSource: (state, action: PayloadAction<SelectedSource>) => {
+      state.selectedSource = action.payload;
     },
-    setTitleParams: (state, action) => {
+    setTitleParams: (state, action: PayloadAction<string>) => {
       state.titleParams = action.payload;
     },
   },
@@ -49,9 +57,9 @@ export const articlesSlice = createSlice({
       .addCase(fetchArticles.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchArticles.fulfilled, (state, action) => {        
+      .addCase(fetchArticles.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.articles = action.payload.map(article => ({...article, id: nanoid()}));
+        state.articles = action.payload.map((article) => ({ ...article, id: nanoid() }));
       })
       .addCase(fetchArticles.rejected, (state, action) => {
         state.status = 'failed';
@@ -60,38 +68,15 @@ export const articlesSlice = createSlice({
   },
 });
 
-export const selectArticles = (state) => state.articles.articles;
-export const getArticlesStatus = (state) => state.articles.status;
-export const getArticlesError = (state) => state.articles.error;
-export const getSelectedSource = (state) => state.articles.source;
-export const getTitleParams = (state) => state.articles.titleParams;
+export const selectArticles = (state: { articles: typeof initialState }) => state.articles.articles;
+export const getArticlesStatus = (state: { articles: typeof initialState }) =>
+  state.articles.status;
+export const getArticlesError = (state: { articles: typeof initialState }) => state.articles.error;
+export const getSelectedSource = (state: { articles: typeof initialState }) =>
+  state.articles.selectedSource;
+export const getTitleParams = (state: { articles: typeof initialState }) =>
+  state.articles.titleParams;
 
 export const { setSource, setTitleParams } = articlesSlice.actions;
 
 export default articlesSlice.reducer;
-
-  // export const fetchAll = createAsyncThunk('articles/fetchAll', async () => {
-  //   try {
-  //     const { articles } = await getAllArticles();
-  //     return articles;
-  //   } catch (error) {
-  //     return error.message;
-  //   }
-  // });
-  // export const fetchBySource = createAsyncThunk('articles/fetchBySource', async (source) => {
-  //   try {
-  //     const { articles } = await getArticlesBySource(source);
-  //     return articles;
-  //   } catch (error) {
-  //     return error.message;
-  //   }
-  // });
-  
-  // export const fetchByTitle = createAsyncThunk('artilces/fetchByTitle', async (params, source) => {
-  //   try {
-  //     const { articles } = await getArticlesByTitle(params, source);
-  //     return articles;
-  //   } catch (error) {
-  //     return error.message;
-  //   }
-  // });

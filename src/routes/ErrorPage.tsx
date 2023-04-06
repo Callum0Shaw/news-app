@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Error from '../components/Error';
 
 function ErrorPage() {
   return (
-    <main className='error__container'>
+    <main className="error__container">
       <h2 className="error__404">404</h2>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -21,13 +22,10 @@ function ErrorPage() {
         <line x1="12" y1="8" x2="12" y2="12"></line>
         <line x1="12" y1="16" x2="12.01" y2="16"></line>
       </svg>
-      <h3 className="error__title">
-        Apologies,
-        <br /> page not found.
-      </h3>
-      <p className="error__message">
-        The article you are looking for doesn’t exist or was either removed.
-      </p>
+      <Error
+        title={`Apologies, page not found.`}
+        message={'The article you are looking for doesn’t exist or was either removed.'}
+      />
       <Link className="link__button" to={'/'}>
         Home
       </Link>

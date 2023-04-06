@@ -1,47 +1,49 @@
-import Sources from '../components/Sources';
+import Sources from '../components/sources/Sources';
 import Hero from '../components/Hero';
-import MoreStories from '../components/MoreStories';
+import MoreStories from '../components/articles/MoreStories';
 import Spinner from '../components/Spinner';
+import Error from '../components/Error';
 import { useEffect, useState } from 'react';
 import {
   fetchArticles,
-  fetchAll,
   getArticlesError,
   getArticlesStatus,
   selectArticles,
   getSelectedSource,
-  getTitleParams
+  getTitleParams,
 } from '../store/articlesSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
 
 function Home() {
-  const dispatch = useDispatch();
-  const articlesStatus = useSelector(getArticlesStatus);
-  const error = useSelector(getArticlesError);
-  const articles = useSelector(selectArticles);
-  const selectedSource = useSelector(getSelectedSource)
-  const titleParams = useSelector(getTitleParams)
+  const dispatch = useAppDispatch();
+  const articlesStatus = useAppSelector(getArticlesStatus);
+  const error = useAppSelector(getArticlesError);
+  const articles = useAppSelector(selectArticles);
+  const selectedSource = useAppSelector(getSelectedSource);
+  const titleParams = useAppSelector(getTitleParams);
 
   useEffect(() => {
-    if (articlesStatus === 'idle') {      
-      dispatch(fetchArticles({selectedSource, titleParams}))
+    if (articlesStatus === 'idle') {
+      dispatch(fetchArticles({ selectedSource, titleParams }));
     }
-
   }, [articlesStatus, dispatch, selectedSource, titleParams]);
-
-
 
   return (
     <main>
       <Sources />
-      {articlesStatus === 'succeeded' ? (
+      {articlesStatus === 'succeeded' && (
         <>
           <Hero articles={articles} />
           <MoreStories articles={articles} />
         </>
-      ) : (
-        <Spinner />
       )}
+      {articlesStatus === 'failed' && (
+        <Error
+          title={'Too many requests'}
+          message={'Apologies, We are unable to process your request.'}
+        />
+      )}
+      {articlesStatus === 'loading' && <Spinner />}
     </main>
   );
 }

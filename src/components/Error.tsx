@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-function Error() {
-  return (
-    <div>Error</div>
-  )
+interface ErrorProps {
+  title: string;
+  message: string;
 }
 
-export default Error
+function Error({ title, message }: ErrorProps) {
+  return (
+    <>
+      <h3 className="error__title">{title}</h3>
+      <p className="error__message">{message}</p>
+    </>
+  );
+}
+
+export default Error;
