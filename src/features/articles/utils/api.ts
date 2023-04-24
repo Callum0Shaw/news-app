@@ -22,7 +22,7 @@ async function getArticles(source: string, titleParams: string): Promise<Article
 }
 
 async function getAllArticles(): Promise<ArticleResponse> {
-  const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`);
+  const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=100&apiKey=${apiKey}`);
   if (res.status !== 200) {
     const error: ErrorResponse = await res.json();
     throw new Error(error.message);

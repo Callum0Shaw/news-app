@@ -11,12 +11,10 @@ interface PrimaryArticleProps {
   status: 'primary' | 'secondary';
 }
 
-function PrimaryArticle({ article, status }: PrimaryArticleProps) {
+function ArticleSummary({ article, status }: PrimaryArticleProps) {
   const date = new Date(article?.publishedAt);
   const title = removeTrailingSource(article?.title);
-  const { id } = useAppSelector(getSelectedSource);
-  console.log(article.id);
-  
+  const { id } = useAppSelector(getSelectedSource);  
 
   return (
     <article className={`card__container ${status}__container`}>
@@ -38,4 +36,4 @@ function PrimaryArticle({ article, status }: PrimaryArticleProps) {
   );
 }
 
-export default PrimaryArticle;
+export default ArticleSummary;

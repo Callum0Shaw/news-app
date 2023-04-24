@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import {
   getSelectedSource,
-  getTitleParams,
   fetchArticles,
   setTitleParams,
 } from '../../articles/store/articlesSlice';
@@ -16,7 +15,6 @@ function Header() {
 
   const dispatch = useAppDispatch();
   const selectedSource = useAppSelector(getSelectedSource);
-  const titleParams = useAppSelector(getTitleParams);
 
   function onSearch(searchTerm: string) {
     dispatch(setTitleParams(searchTerm));
