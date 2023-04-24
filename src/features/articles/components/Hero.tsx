@@ -1,8 +1,9 @@
 import React from 'react';
-import { useAppSelector } from '../utils/hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { getSelectedSource, getTitleParams } from '../store/articlesSlice';
-import ArticleSummary from './articles/ArticleSummary';
-import { Article } from '../types/articles';
+import ArticleSummary from './ArticleSummary';
+import { Article } from '../types';
+import '../styles.css';
 
 interface HeroProps {
   articles: Article[];

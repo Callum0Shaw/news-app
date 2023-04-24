@@ -1,6 +1,6 @@
-import Sources from '../components/sources/Sources';
-import Hero from '../components/Hero';
-import MoreStories from '../components/articles/MoreStories';
+import Sources from '../features/sources/components/Sources';
+import Hero from '../features/articles/components/Hero';
+import MoreStories from '../features/articles/components/MoreStories';
 import Spinner from '../components/Spinner';
 import Error from '../components/Error';
 import { useEffect, useState } from 'react';
@@ -11,8 +11,8 @@ import {
   selectArticles,
   getSelectedSource,
   getTitleParams,
-} from '../store/articlesSlice';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
+} from '../features/articles/store/articlesSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 function Home() {
   const dispatch = useAppDispatch();

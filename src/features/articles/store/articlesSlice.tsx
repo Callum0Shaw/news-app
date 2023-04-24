@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { getAllArticles, getArticlesBySource, getArticlesByTitle } from '../utils/api';
-import { Article } from '../types/articles';
-import { SelectedSource } from '../types/sources';
+import { getArticles } from '../utils/api';
+import { Article } from '../types';
+import { Source } from '../../sources/types';
 
 interface ArticlesState {
   articles: Article[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | undefined;
-  selectedSource: SelectedSource;
+  selectedSource: Source;
   titleParams: string;
 }
 
@@ -21,22 +21,14 @@ const initialState: ArticlesState = {
 
 // THUNK MIDDLEWARES
 interface FetchArticlesArgs {
-  selectedSource: SelectedSource;
+  selectedSource: Source;
   titleParams: string;
 }
 
 export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
-  async ({ selectedSource, titleParams }: FetchArticlesArgs) => {
-    if (selectedSource.id === 'all' && !titleParams) {
-      const { articles } = await getAllArticles();
-      return articles;
-    }
-    if (!titleParams) {
-      const { articles } = await getArticlesBySource(selectedSource.id);
-      return articles;
-    }
-    const { articles } = await getArticlesByTitle(selectedSource.id, titleParams);
+  async ({ selectedSource, titleParams }: FetchArticlesArgs): Promise<Article[]> => {
+    const { articles } = await getArticles(selectedSource.id, titleParams);
     return articles;
   }
 );
@@ -45,7 +37,7 @@ export const articlesSlice = createSlice({
   name: 'articles',
   initialState,
   reducers: {
-    setSource: (state, action: PayloadAction<SelectedSource>) => {
+    setSource: (state, action: PayloadAction<Source>) => {
       state.selectedSource = action.payload;
     },
     setTitleParams: (state, action: PayloadAction<string>) => {
