@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { Article } from '../features/articles/types';
+import Error from '../components/Error';
 
 import { selectArticles } from '../features/articles/store/articlesSlice';
 
@@ -9,6 +10,7 @@ function ArticlePage() {
   const { id } = useParams();
   const articles = useAppSelector(selectArticles);
   const article = articles.find((a: Article) => a.id === id);
+  if (!article) return <Error title="Not Found" message="Could not find this article" />;
   const date = new Date(article?.publishedAt);
 
   return (
