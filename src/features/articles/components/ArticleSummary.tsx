@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { removeTrailingSource } from '../utils/functions';
 import { getSelectedSource } from '../store/articlesSlice';
 import { useAppSelector } from '../../../store/hooks';
@@ -14,7 +15,7 @@ function PrimaryArticle({ article, status }: PrimaryArticleProps) {
   const date = new Date(article?.publishedAt);
   const title = removeTrailingSource(article?.title);
   const { id } = useAppSelector(getSelectedSource);
-  console.log(article);
+  console.log(article.id);
   
 
   return (
@@ -31,9 +32,7 @@ function PrimaryArticle({ article, status }: PrimaryArticleProps) {
       <div className="text__container__vertical">
         <h3>{id === 'all' ? title : article?.title}</h3>
         <p>{article?.description}</p>
-        <a className="readmore__link" href={`/article/${article?.id}`}>
-          read more...
-        </a>
+        <Link className="readmore__link" to={`/article/${article?.id}`}>read more...</Link>
       </div>
     </article>
   );

@@ -13,6 +13,7 @@
 .primary__container {
   width: 100%;
   gap: var(--md);
+  flex-direction: column;
 }
 
 @media (min-width: 840px) {
@@ -34,6 +35,7 @@
 
 .secondary__container {
   gap: var(--sm);
+  flex-direction: column;
 }
 
 @container (width > 450px) {
@@ -53,7 +55,6 @@
 .card__container {
   position: relative;
   display: flex;
-  flex-direction: column;
   container-type: inline-size;
 }
 .date__small,

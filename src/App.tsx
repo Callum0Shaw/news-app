@@ -5,7 +5,7 @@ import { store } from './store/store';
 import Grid from './components/Grid';
 import Layout from './components/Layout';
 import Home from './routes/Home';
-import Article from './routes/Article';
+import ArticlePage from './routes/ArticlePage';
 import ErrorPage from './routes/ErrorPage';
 
 const router = createBrowserRouter([
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'article/:id',
-        element: <Article />,
+        element: <ArticlePage />,
       },
     ],
   },

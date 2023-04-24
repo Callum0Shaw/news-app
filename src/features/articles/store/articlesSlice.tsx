@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction, nanoid } from '@reduxjs/toolkit';
 import { getArticles } from '../utils/api';
+import { createID } from '../utils/functions';
 import { Article } from '../types';
 import { Source } from '../../sources/types';
 
@@ -68,6 +69,8 @@ export const getSelectedSource = (state: { articles: typeof initialState }) =>
   state.articles.selectedSource;
 export const getTitleParams = (state: { articles: typeof initialState }) =>
   state.articles.titleParams;
+export const selectArticleById = (state: { articles: typeof initialState }, id: string) =>
+  state.articles.articles.find((article) => article.id === id);
 
 export const { setSource, setTitleParams } = articlesSlice.actions;
 
